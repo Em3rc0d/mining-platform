@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "ticker": "BHP",
+    "name": "BHP Group",
+    "sector": "Mining",
+    "country": "Australia",
+    "market_cap": 140000000000,
+    "currency": "USD",
+    "created_at": "2026-02-21T14:41:45.100Z"
+  },
+  {
+    "id": 2,
+    "ticker": "RIO",
+    "name": "Rio Tinto",
+    "sector": "Mining",
+    "country": "UK",
+    "market_cap": 110000000000,
+    "currency": "USD",
+    "created_at": "2026-02-21T14:41:45.101Z"
+  },
+  {
+    "id": 3,
+    "ticker": "FCX",
+    "name": "Freeport-McMoRan",
+    "sector": "Mining",
+    "country": "USA",
+    "market_cap": 70000000000,
+    "currency": "USD",
+    "created_at": "2026-02-21T14:41:45.101Z"
+  },
+  {
+    "id": 4,
+    "ticker": "NEM",
+    "name": "Newmont Corporation",
+    "sector": "Mining",
+    "country": "USA",
+    "market_cap": 55000000000,
+    "currency": "USD",
+    "created_at": "2026-02-21T14:41:45.102Z"
+  },
+  {
+    "id": 5,
+    "ticker": "GOLD",
+    "name": "Barrick Gold",
+    "sector": "Mining",
+    "country": "Canada",
+    "market_cap": 35000000000,
+    "currency": "USD",
+    "created_at": "2026-02-21T14:41:45.102Z"
+  },
+  {
+    "id": 6,
+    "ticker": "SCCO",
+    "name": "Southern Copper",
+    "sector": "Mining",
+    "country": "Peru",
+    "market_cap": 90000000000,
+    "currency": "USD",
+    "created_at": "2026-02-21T14:41:45.103Z"
+  }
+]

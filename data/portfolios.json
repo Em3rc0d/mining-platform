@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "user_id": 1,
+    "name": "Alpha Mining Fund",
+    "description": "Diversified mining portfolio",
+    "initial_capital": 500000,
+    "current_value": 547230,
+    "currency": "USD",
+    "created_at": "2026-02-21T14:41:45.115Z"
+  },
+  {
+    "id": 2,
+    "user_id": 2,
+    "name": "Copper Focus",
+    "description": "Copper-weighted strategy",
+    "initial_capital": 250000,
+    "current_value": 278450,
+    "currency": "USD",
+    "created_at": "2026-02-21T14:41:45.115Z"
+  },
+  {
+    "id": 3,
+    "user_id": 3,
+    "name": "Quant Strategy A",
+    "description": "ML-driven signals",
+    "initial_capital": 1000000,
+    "current_value": 1124780,
+    "currency": "USD",
+    "created_at": "2026-02-21T14:41:45.115Z"
+  },
+  {
+    "id": 4,
+    "user_id": 4,
+    "name": "Balanced Portfolio",
+    "description": "Risk-balanced allocation",
+    "initial_capital": 750000,
+    "current_value": 791200,
+    "currency": "USD",
+    "created_at": "2026-02-21T14:41:45.115Z"
+  },
+  {
+    "id": 5,
+    "user_id": 5,
+    "name": "Risk Parity",
+    "description": "Equal risk contribution",
+    "initial_capital": 300000,
+    "current_value": 315600,
+    "currency": "USD",
+    "created_at": "2026-02-21T14:41:45.115Z"
+  },
+  {
+    "id": 6,
+    "user_id": 6,
+    "name": "Director Fund",
+    "description": "Strategic positions",
+    "initial_capital": 2000000,
+    "current_value": 2187000,
+    "currency": "USD",
+    "created_at": "2026-02-21T14:41:45.115Z"
+  }
+]
