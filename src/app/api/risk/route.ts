@@ -170,7 +170,7 @@ export async function GET(request: Request) {
 
     const riskMetrics: RiskMetrics = {
       portfolio_id: portfolio.id,
-      total_value: portfolio.current_value,
+      total_value: portfolio.current_value || 0,
       volatility: portfolioVolatility,
       sharpe_ratio: portfolioSharpe,
       max_drawdown: portfolioMaxDD,

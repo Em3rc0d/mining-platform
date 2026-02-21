@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { UserProvider } from '@/contexts/UserContext'
 
 export const metadata: Metadata = {
   title: 'MineralAI — Mining Intelligence Platform',
@@ -9,7 +10,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <UserProvider>
+          {children}
+        </UserProvider>
+      </body>
     </html>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import AppShell from '@/components/layout/AppShell'
+import AuthGuard from '@/components/AuthGuard'
 import { AreaChart, Area, LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts'
 
 interface DashboardData {
@@ -77,12 +77,12 @@ export default function DashboardPage() {
   }, [])
 
   if (loading) return (
-    <AppShell>
+    <AuthGuard>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 400, gap: 12 }}>
         <div className="spinner" />
         <span style={{ color: '#64748b' }}>Loading market data...</span>
       </div>
-    </AppShell>
+    </AuthGuard>
   )
 
   const priceChartData = data?.priceHistory[chartTicker]?.slice(-60).map(p => ({
@@ -99,7 +99,7 @@ export default function DashboardPage() {
   const portfolioReturn = parseFloat(data?.portfolio?.returnPct || 0)
 
   return (
-    <AppShell>
+    <AuthGuard>
       {/* Header stats */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 28 }}>
         <StatCard
@@ -253,6 +253,6 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-    </AppShell>
+    </AuthGuard>
   )
 }

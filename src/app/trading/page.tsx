@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import AppShell from '@/components/layout/AppShell'
+import AuthGuard from '@/components/AuthGuard'
 
 interface Order {
   id: number
@@ -375,16 +375,16 @@ export default function TradingPage() {
 
   if (loading) {
     return (
-      <AppShell>
+      <AuthGuard>
         <div style={{ padding: '20px', textAlign: 'center' }}>
           <div>Loading trading data...</div>
         </div>
-      </AppShell>
+      </AuthGuard>
     )
   }
 
   return (
-    <AppShell>
+    <AuthGuard>
       <div style={{ padding: '20px' }}>
         <div style={{ marginBottom: '24px' }}>
           <h1 style={{ fontSize: '1.875rem', fontWeight: 700, marginBottom: '8px' }}>Paper Trading</h1>
@@ -436,6 +436,6 @@ export default function TradingPage() {
           <OrdersTable orders={orders} />
         </div>
       </div>
-    </AppShell>
+    </AuthGuard>
   )
 }

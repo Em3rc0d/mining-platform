@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import AppShell from '@/components/layout/AppShell'
+import AuthGuard from '@/components/AuthGuard'
 
 interface User {
   id: number
@@ -117,16 +117,16 @@ export default function UsersPage() {
 
   if (loading) {
     return (
-      <AppShell>
+      <AuthGuard>
         <div style={{ padding: '20px', textAlign: 'center' }}>
           <div>Loading users...</div>
         </div>
-      </AppShell>
+      </AuthGuard>
     )
   }
 
   return (
-    <AppShell>
+    <AuthGuard>
       <div style={{ padding: '20px' }}>
         <div style={{ marginBottom: '24px' }}>
           <h1 style={{ fontSize: '1.875rem', fontWeight: 700, marginBottom: '8px' }}>User Management</h1>
@@ -141,7 +141,7 @@ export default function UsersPage() {
           </div>
           {Object.entries(roleStats).map(([role, count]) => (
             <div key={role} className="card" style={{ padding: '20px', textAlign: 'center' }}>
-              <div style={{ fontSize: '2rem', fontWeight: 700 }} style={{ color: ROLE_COLORS[role as keyof typeof ROLE_COLORS] || '#6b7280' }}>
+              <div style={{ fontSize: '2rem', fontWeight: 700, color: ROLE_COLORS[role as keyof typeof ROLE_COLORS] || '#6b7280' }}>
                 {count}
               </div>
               <div style={{ fontSize: '0.875rem', color: '#64748b' }}>
@@ -210,6 +210,6 @@ export default function UsersPage() {
           color: white;
         }
       `}</style>
-    </AppShell>
+    </AuthGuard>
   )
 }

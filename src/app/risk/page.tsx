@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import AppShell from '@/components/layout/AppShell'
+import AuthGuard from '@/components/AuthGuard'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, LineChart, Line } from 'recharts'
 
 interface RiskMetrics {
@@ -113,21 +113,21 @@ export default function RiskPage() {
 
   if (loading) {
     return (
-      <AppShell>
+      <AuthGuard>
         <div style={{ padding: '20px', textAlign: 'center' }}>
           <div>Analyzing portfolio risk...</div>
         </div>
-      </AppShell>
+      </AuthGuard>
     )
   }
 
   if (!riskMetrics) {
     return (
-      <AppShell>
+      <AuthGuard>
         <div style={{ padding: '20px', textAlign: 'center' }}>
           <div>Unable to load risk metrics</div>
         </div>
-      </AppShell>
+      </AuthGuard>
     )
   }
 
@@ -140,7 +140,7 @@ export default function RiskPage() {
   ]
 
   return (
-    <AppShell>
+    <AuthGuard>
       <div style={{ padding: '20px' }}>
         <div style={{ marginBottom: '24px' }}>
           <h1 style={{ fontSize: '1.875rem', fontWeight: 700, marginBottom: '8px' }}>Risk Management</h1>
@@ -270,6 +270,6 @@ export default function RiskPage() {
           </div>
         </div>
       </div>
-    </AppShell>
+    </AuthGuard>
   )
 }

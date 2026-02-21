@@ -1,7 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useUser } from '@/contexts/UserContext'
 
 const NAV = [
   { href: '/', icon: '⬡', label: 'Dashboard' },
@@ -18,6 +19,8 @@ const COMPANIES = ['BHP', 'RIO', 'FCX', 'NEM', 'GOLD', 'SCCO']
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
+  const { user, logout, isLoading } = useUser()
   const [collapsed, setCollapsed] = useState(false)
   const [prices, setPrices] = useState<Record<string, any>>({})
 
@@ -113,7 +116,70 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           )}
         </nav>
-
+        {/* User Section */}
+        {user && (
+          <div style={{ padding: '12px 16px', borderTop: '1px solid #e2e8f0' }}>
+            {!collapsed ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                <div style={{
+                  width: 32, height: 32, borderRadius: '50%',
+                  background: user.avatar_color,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: 'white', fontWeight: 700, fontSize: '0.8rem',
+                  flexShrink: 0
+                }}>
+                  {(user.full_name || user.username).split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#0f172a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {user.full_name || user.username}
+                  </div>
+                  <div style={{ fontSize: '0.65rem', color: '#64748b', textTransform: 'capitalize' }}>
+                    {user.role.replace('_', ' ')}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 8 }}>
+                <div style={{
+                  width: 32, height: 32, borderRadius: '50%',
+                  background: user.avatar_color,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: 'white', fontWeight: 700, fontSize: '0.8rem'
+                }}>
+                  {(user.full_name || user.username).split(' ').map((n: string) => n[0]).join('').slice(0, 2)}
+                </div>
+              </div>
+            )}
+            <button
+              onClick={() => {
+                logout()
+                router.push('/auth/login')
+              }}
+              style={{
+                width: '100%',
+                padding: '6px 12px',
+                border: '1px solid #e2e8f0',
+                borderRadius: '6px',
+                background: 'white',
+                color: '#64748b',
+                fontSize: '0.75rem',
+                cursor: 'pointer',
+                transition: 'all 0.15s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = '#dc2626'
+                e.currentTarget.style.color = '#dc2626'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = '#e2e8f0'
+                e.currentTarget.style.color = '#64748b'
+              }}
+            >
+              {!collapsed ? 'Logout' : '🚪'}
+            </button>
+          </div>
+        )}
         {/* Footer */}
         <div style={{ padding: '12px 16px', borderTop: '1px solid #e2e8f0', fontSize: '0.7rem', color: '#94a3b8' }}>
           {!collapsed ? (

@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import AppShell from '@/components/layout/AppShell'
+import AuthGuard from '@/components/AuthGuard'
 import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts'
 
 const COMPANIES = ['BHP', 'RIO', 'FCX', 'NEM', 'GOLD', 'SCCO']
@@ -39,7 +39,7 @@ export default function BacktestingPage() {
   const metrics = result?.metrics
 
   return (
-    <AppShell>
+    <AuthGuard>
       {/* Config panel */}
       <div className="card animate-in" style={{ padding: '20px 24px', marginBottom: 20 }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1rem', marginBottom: 16 }}>Backtest Configuration</div>
@@ -205,6 +205,6 @@ export default function BacktestingPage() {
           )}
         </>
       )}
-    </AppShell>
+    </AuthGuard>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import AppShell from '@/components/layout/AppShell'
+import AuthGuard from '@/components/AuthGuard'
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ScatterChart, Scatter, Line, ReferenceLine } from 'recharts'
 
 const COMPANIES = ['BHP', 'RIO', 'FCX', 'NEM', 'GOLD', 'SCCO']
@@ -107,7 +107,7 @@ export default function AnalysisPage() {
   const consensusColor = consensusDir === 'UP' ? '#059669' : consensusDir === 'DOWN' ? '#dc2626' : '#64748b'
 
   return (
-    <AppShell>
+    <AuthGuard>
       {/* Company selector */}
       <div className="card animate-in" style={{ padding: '16px 20px', marginBottom: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
@@ -212,7 +212,7 @@ export default function AnalysisPage() {
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1rem', marginBottom: 4 }}>Classification Model Metrics</div>
               <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginBottom: 16 }}>Performance metrics comparison for {ticker}</div>
               <ResponsiveContainer width="100%" height={400}>
-                <BarChart data={classificationModels.map(p => ({
+                <BarChart data={classificationModels.map((p: any) => ({
                   model: p.modelName.replace(' Neural Net', '').replace(' Regression', '').replace(' Boosting', ' Boost'),
                   accuracy: (p.metrics.accuracy * 100).toFixed(1),
                   precision: (p.metrics.precision * 100).toFixed(1),
@@ -223,7 +223,7 @@ export default function AnalysisPage() {
                   <XAxis dataKey="model" tick={{ fontSize: 11, fill: '#64748b' }} />
                   <YAxis tick={{ fontSize: 11, fill: '#64748b' }} />
                   <Tooltip
-                    formatter={(value, name) => [`${value}%`, name.charAt(0).toUpperCase() + name.slice(1)]}
+                    formatter={(value, name) => [`${value}%`, String(name).charAt(0).toUpperCase() + String(name).slice(1)]}
                     labelStyle={{ color: '#0f172a' }}
                     contentStyle={{ backgroundColor: 'white', border: '1px solid #e2e8f0', borderRadius: '8px' }}
                   />
@@ -369,6 +369,6 @@ export default function AnalysisPage() {
           )}
         </>
       )}
-    </AppShell>
+    </AuthGuard>
   )
 }

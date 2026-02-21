@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import AppShell from '@/components/layout/AppShell'
+import AuthGuard from '@/components/AuthGuard'
 
 interface Alert {
   id: number
@@ -136,16 +136,16 @@ export default function AlertsPage() {
 
   if (loading) {
     return (
-      <AppShell>
+      <AuthGuard>
         <div style={{ padding: '20px', textAlign: 'center' }}>
           <div>Loading alerts...</div>
         </div>
-      </AppShell>
+      </AuthGuard>
     )
   }
 
   return (
-    <AppShell>
+    <AuthGuard>
       <div style={{ padding: '20px' }}>
         <div style={{ marginBottom: '24px' }}>
           <h1 style={{ fontSize: '1.875rem', fontWeight: 700, marginBottom: '8px' }}>
@@ -180,7 +180,7 @@ export default function AlertsPage() {
             const config = ALERT_TYPE_CONFIG[type as keyof typeof ALERT_TYPE_CONFIG]
             return (
               <div key={type} className="card" style={{ padding: '16px', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: 700 }} style={{ color: config.color }}>
+                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: config.color }}>
                   {count}
                 </div>
                 <div style={{ fontSize: '0.875rem', color: '#64748b' }}>
@@ -261,6 +261,6 @@ export default function AlertsPage() {
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
       `}</style>
-    </AppShell>
+    </AuthGuard>
   )
 }

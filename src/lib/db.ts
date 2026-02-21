@@ -194,7 +194,7 @@ async function seedData() {
     const ticker = tickers[i]
     try {
       console.log(`Fetching data for ${ticker}...`)
-      const quote = await yahooFinance.quoteSummary(ticker, { modules: ['summaryDetail', 'price'] })
+      const quote = await yahooFinance.quoteSummary(ticker, { modules: ['summaryDetail', 'price'] }) as any
       console.log(`Raw data for ${ticker}:`, JSON.stringify(quote, null, 2))
       const marketCap = quote.summaryDetail?.marketCap || quote.price?.marketCap
       const displayName = quote.price?.longName || quote.price?.shortName || ticker
@@ -251,7 +251,7 @@ async function seedData() {
         period1: startDate,
         period2: endDate,
         interval: '1d'
-      })
+      }) as any
       
       historical.forEach((day: any) => {
         if (day.close && day.open && day.high && day.low && day.volume) {
@@ -419,7 +419,7 @@ async function seedData() {
         final_value: parseFloat((capital * (1 + ret)).toFixed(2)),
         total_return: parseFloat((ret * 100).toFixed(2)),
         sharpe_ratio: parseFloat((0.5 + Math.random() * 2).toFixed(2)),
-        max_drawdown: parseFloat(-(5 + Math.random() * 25).toFixed(2)),
+        max_drawdown: parseFloat((-(5 + Math.random() * 25)).toFixed(2)),
         win_rate: parseFloat((0.45 + Math.random() * 0.2).toFixed(2)),
         total_trades: Math.floor(20 + Math.random() * 80),
         created_at: new Date().toISOString()

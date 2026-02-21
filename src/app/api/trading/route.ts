@@ -88,7 +88,7 @@ export async function GET(request: Request) {
       const companies = getCompanies()
       userPositions.forEach(position => {
         const company = companies.find(c => c.ticker === position.ticker)
-        if (company) {
+        if (company && company.market_cap) {
           position.current_price = company.market_cap / 1000000000 // Simplified price calculation
           position.market_value = position.quantity * position.current_price
           position.unrealized_pnl = position.market_value - (position.quantity * position.average_cost)
@@ -144,7 +144,7 @@ export async function POST(request: Request) {
         setTimeout(() => {
           const companies = getCompanies()
           const company = companies.find(c => c.ticker === ticker)
-          const executionPrice = company ? company.market_cap / 1000000000 : 50
+          const executionPrice = company && company.market_cap ? company.market_cap / 1000000000 : 50
 
           newOrder.status = 'filled'
           newOrder.filled_at = new Date().toISOString()

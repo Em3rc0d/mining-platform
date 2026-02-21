@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import AppShell from '@/components/layout/AppShell'
+import AuthGuard from '@/components/AuthGuard'
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts'
 
 const COLORS = ['#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#ef4444', '#f97316']
@@ -104,16 +104,16 @@ export default function PortfolioPage() {
   }))
 
   if (loading) return (
-    <AppShell>
+    <AuthGuard>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 400, gap: 12 }}>
         <div className="spinner" />
         <span style={{ color: '#64748b' }}>Loading portfolios...</span>
       </div>
-    </AppShell>
+    </AuthGuard>
   )
 
   return (
-    <AppShell>
+    <AuthGuard>
       {/* Summary */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, marginBottom: 24 }}>
         {[
@@ -281,6 +281,6 @@ export default function PortfolioPage() {
           </table>
         </div>
       </div>
-    </AppShell>
+    </AuthGuard>
   )
 }
