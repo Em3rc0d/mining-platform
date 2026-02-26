@@ -81,7 +81,7 @@ export async function GET(request: Request) {
     }
 
     // Get all tickers in the portfolio (simplified - in real app would get from positions)
-    const tickers = ['BHP', 'RIO', 'FCX', 'NEM', 'GOLD', 'SCCO']
+    const tickers = ['FSM', 'VOLCABC1.LM', 'BVN', 'ABX', 'BHP', 'SCCO']
 
     // Calculate risk metrics for each ticker
     const tickerMetrics = tickers.map(ticker => {
@@ -102,7 +102,7 @@ export async function GET(request: Request) {
       // Calculate daily returns
       const returns: number[] = []
       for (let i = 1; i < priceData.length; i++) {
-        returns.push((priceData[i].close - priceData[i-1].close) / priceData[i-1].close)
+        returns.push((priceData[i].close - priceData[i - 1].close) / priceData[i - 1].close)
       }
 
       const volatility = calculateVolatility(returns)
@@ -128,10 +128,10 @@ export async function GET(request: Request) {
           correlationMatrix[ticker1][ticker2] = 1
         } else {
           const returns1 = getPriceData(ticker1).slice(-252).map((p, i, arr) =>
-            i > 0 ? (p.close - arr[i-1].close) / arr[i-1].close : 0
+            i > 0 ? (p.close - arr[i - 1].close) / arr[i - 1].close : 0
           ).slice(1)
           const returns2 = getPriceData(ticker2).slice(-252).map((p, i, arr) =>
-            i > 0 ? (p.close - arr[i-1].close) / arr[i-1].close : 0
+            i > 0 ? (p.close - arr[i - 1].close) / arr[i - 1].close : 0
           ).slice(1)
           correlationMatrix[ticker1][ticker2] = calculateCorrelation(returns1, returns2)
         }
@@ -144,27 +144,34 @@ export async function GET(request: Request) {
     const portfolioMaxDD = Math.max(...tickerMetrics.map(m => m.max_drawdown))
     const portfolioVaR = tickerMetrics.reduce((sum, m) => sum + m.value_at_risk_95, 0) / tickerMetrics.length
 
+    // Calculate a dynamic beta (relative to BHP as proxy for mining index if needed)
+    const benchmarkReturns = getPriceData('BHP').slice(-252).map((p, i, arr) => i > 0 ? (p.close - arr[i - 1].close) / arr[i - 1].close : 0).slice(1)
+    const portfolioReturns = tickers.map(t => getPriceData(t).slice(-252).map((p, i, arr) => i > 0 ? (p.close - arr[i - 1].close) / arr[i - 1].close : 0).slice(1))
+      .reduce((acc, current) => acc.map((v, i) => v + (current[i] || 0) / tickers.length), new Array(251).fill(0))
+
+    const portfolioBeta = calculateCorrelation(portfolioReturns, benchmarkReturns) * (portfolioVolatility / calculateVolatility(benchmarkReturns))
+
     // Stress test scenarios
     const stressTestResults = [
       {
-        scenario: 'Global Recession',
-        impact: -0.25,
-        probability: 0.1
+        scenario: 'High Volatility Spike',
+        impact: -(portfolioVolatility * 0.8),
+        probability: 0.15
       },
       {
-        scenario: 'Commodity Price Crash',
-        impact: -0.35,
-        probability: 0.05
+        scenario: 'Commodity Downcycle',
+        impact: -(portfolioVolatility * 1.5),
+        probability: 0.08
       },
       {
-        scenario: 'Supply Chain Disruption',
-        impact: -0.15,
+        scenario: 'Sector Correction',
+        impact: -(portfolioVolatility * 0.5),
         probability: 0.2
       },
       {
-        scenario: 'Bull Market',
-        impact: 0.30,
-        probability: 0.3
+        scenario: 'Market Rally',
+        impact: portfolioVolatility * 0.6,
+        probability: 0.25
       }
     ]
 
@@ -175,8 +182,8 @@ export async function GET(request: Request) {
       sharpe_ratio: portfolioSharpe,
       max_drawdown: portfolioMaxDD,
       value_at_risk_95: portfolioVaR,
-      expected_shortfall_95: portfolioVaR * 1.2, // Simplified
-      beta: 1.1, // Simplified market beta
+      expected_shortfall_95: portfolioVaR * 1.2,
+      beta: parseFloat(portfolioBeta.toFixed(2)),
       correlation_matrix: correlationMatrix,
       stress_test_results: stressTestResults
     }

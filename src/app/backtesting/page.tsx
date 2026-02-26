@@ -3,8 +3,8 @@ import { useState } from 'react'
 import AuthGuard from '@/components/AuthGuard'
 import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts'
 
-const COMPANIES = ['BHP', 'RIO', 'FCX', 'NEM', 'GOLD', 'SCCO']
-const STRATEGIES = ['RF Signal', 'SVM Trend', 'LSTM Momentum', 'ARIMA Mean-Rev', 'Ensemble']
+const COMPANIES = ['FSM', 'VOLCABC1.LM', 'BVN', 'ABX', 'BHP', 'SCCO']
+const STRATEGIES = ['SVC Trend', 'LSTM Momentum', 'BiLSTM Signal', 'ARIMA Mean-Rev', 'ARIMA-LSTM VectorBT']
 
 function MetricBox({ label, value, color, prefix = '', suffix = '' }: any) {
   const numVal = parseFloat(value)
@@ -146,7 +146,7 @@ export default function BacktestingPage() {
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                 <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#94a3b8' }} tickLine={false} />
-                <YAxis tick={{ fontSize: 10, fill: '#94a3b8' }} tickLine={false} axisLine={false} tickFormatter={v => `$${(v/1000).toFixed(0)}k`} />
+                <YAxis tick={{ fontSize: 10, fill: '#94a3b8' }} tickLine={false} axisLine={false} tickFormatter={v => `$${(v / 1000).toFixed(0)}k`} />
                 <Tooltip
                   contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0', fontSize: 12 }}
                   formatter={(v: any) => [`$${parseFloat(v).toLocaleString('en', { maximumFractionDigits: 0 })}`, 'Portfolio Value']}

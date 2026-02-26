@@ -90,20 +90,24 @@ function OrderForm({ onOrderPlaced }: { onOrderPlaced: () => void }) {
             <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '4px' }}>
               Ticker
             </label>
-            <input
-              type="text"
+            <select
               value={ticker}
               onChange={(e) => setTicker(e.target.value)}
-              placeholder="e.g. BHP"
               required
               style={{
                 width: '100%',
                 padding: '8px 12px',
                 border: '1px solid #e2e8f0',
                 borderRadius: '6px',
-                fontSize: '0.875rem'
+                fontSize: '0.875rem',
+                background: 'white'
               }}
-            />
+            >
+              <option value="">Select Ticker</option>
+              {['FSM', 'VOLCABC1.LM', 'BVN', 'ABX', 'BHP', 'SCCO'].map(t => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
           </div>
           <div>
             <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 500, marginBottom: '4px' }}>

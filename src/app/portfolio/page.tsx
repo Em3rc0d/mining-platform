@@ -54,7 +54,7 @@ export default function PortfolioPage() {
   const [data, setData] = useState<any>(null)
   const [users, setUsers] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [newOp, setNewOp] = useState({ portfolio_id: '', ticker: 'BHP', type: 'BUY', quantity: '', price: '' })
+  const [newOp, setNewOp] = useState({ portfolio_id: '', ticker: 'FSM', type: 'BUY', quantity: '', price: '' })
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState('')
 
@@ -195,7 +195,7 @@ export default function PortfolioPage() {
             },
             {
               label: 'Ticker', type: 'select', key: 'ticker',
-              options: ['BHP', 'RIO', 'FCX', 'NEM', 'GOLD', 'SCCO'].map(t => ({ value: t, label: t })),
+              options: ['FSM', 'VOLCABC1.LM', 'BVN', 'ABX', 'BHP', 'SCCO'].map(t => ({ value: t, label: t })),
             },
             {
               label: 'Type', type: 'select', key: 'type',

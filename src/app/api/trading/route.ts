@@ -33,23 +33,23 @@ let orders: Order[] = [
   {
     id: 1,
     user_id: 1,
-    ticker: 'BHP',
+    ticker: 'FSM',
     order_type: 'market',
     side: 'buy',
     quantity: 100,
     status: 'filled',
     created_at: '2026-02-21T10:00:00.000Z',
     filled_at: '2026-02-21T10:00:05.000Z',
-    filled_price: 45.23
+    filled_price: 3.45
   },
   {
     id: 2,
     user_id: 1,
-    ticker: 'RIO',
+    ticker: 'BVN',
     order_type: 'limit',
     side: 'buy',
     quantity: 50,
-    price: 65.00,
+    price: 15.00,
     status: 'pending',
     created_at: '2026-02-21T11:30:00.000Z'
   }
@@ -59,12 +59,12 @@ let positions: Position[] = [
   {
     id: 1,
     user_id: 1,
-    ticker: 'BHP',
+    ticker: 'FSM',
     quantity: 100,
-    average_cost: 45.23,
-    current_price: 45.67,
-    market_value: 4567.00,
-    unrealized_pnl: 44.00,
+    average_cost: 3.45,
+    current_price: 3.52,
+    market_value: 352.00,
+    unrealized_pnl: 7.00,
     created_at: '2026-02-21T10:00:00.000Z',
     updated_at: '2026-02-21T15:00:00.000Z'
   }
@@ -87,9 +87,10 @@ export async function GET(request: Request) {
       // Update current prices
       const companies = getCompanies()
       userPositions.forEach(position => {
-        const company = companies.find(c => c.ticker === position.ticker)
-        if (company && company.market_cap) {
-          position.current_price = company.market_cap / 1000000000 // Simplified price calculation
+        const lastPrices = getPriceData(position.ticker).sort((a, b) => b.date.localeCompare(a.date))
+        const currentPrice = lastPrices[0]?.close || position.average_cost
+        if (currentPrice) {
+          position.current_price = currentPrice
           position.market_value = position.quantity * position.current_price
           position.unrealized_pnl = position.market_value - (position.quantity * position.average_cost)
           position.updated_at = new Date().toISOString()
@@ -142,9 +143,8 @@ export async function POST(request: Request) {
       // Simulate order execution for demo
       if (orderType === 'market') {
         setTimeout(() => {
-          const companies = getCompanies()
-          const company = companies.find(c => c.ticker === ticker)
-          const executionPrice = company && company.market_cap ? company.market_cap / 1000000000 : 50
+          const lastPrices = getPriceData(ticker).sort((a, b) => b.date.localeCompare(a.date))
+          const executionPrice = lastPrices[0]?.close || 50
 
           newOrder.status = 'filled'
           newOrder.filled_at = new Date().toISOString()

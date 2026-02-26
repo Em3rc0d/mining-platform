@@ -15,7 +15,7 @@ const NAV = [
   { href: '/trading', icon: '📈', label: 'Paper Trading' },
 ]
 
-const COMPANIES = ['BHP', 'RIO', 'FCX', 'NEM', 'GOLD', 'SCCO']
+const COMPANIES = ['FSM', 'VOLCABC1.LM', 'BVN', 'ABX', 'BHP', 'SCCO']
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -98,14 +98,14 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                     cursor: 'default',
                     transition: 'background 0.15s',
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.background = '#f8fafc')}
-                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
+                    onMouseEnter={e => (e.currentTarget.style.background = '#f8fafc')}
+                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}>
                     <div>
                       <div style={{ fontSize: '0.8rem', fontWeight: 600, color: '#0f172a', fontFamily: 'var(--font-mono)' }}>{ticker}</div>
                       <div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>{data?.name?.split(' ')[0] || '—'}</div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>${parseFloat(data?.price || 0).toFixed(2)}</div>
+                      <div style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)', fontWeight: 500 }}>${parseFloat(data?.current_price || 0).toFixed(2)}</div>
                       <div style={{ fontSize: '0.65rem', color: change >= 0 ? '#059669' : '#dc2626', fontWeight: 600 }}>
                         {change >= 0 ? '▲' : '▼'} {Math.abs(change).toFixed(2)}%
                       </div>

@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react'
 import AuthGuard from '@/components/AuthGuard'
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ScatterChart, Scatter, Line, ReferenceLine } from 'recharts'
 
-const COMPANIES = ['BHP', 'RIO', 'FCX', 'NEM', 'GOLD', 'SCCO']
-const COMPANY_COLORS: Record<string, string> = { BHP: '#f59e0b', RIO: '#3b82f6', FCX: '#10b981', NEM: '#8b5cf6', GOLD: '#ef4444', SCCO: '#f97316' }
+const COMPANIES = ['FSM', 'VOLCABC1.LM', 'BVN', 'ABX', 'BHP', 'SCCO']
+const COMPANY_COLORS: Record<string, string> = { FSM: '#3b82f6', 'VOLCABC1.LM': '#8b5cf6', BVN: '#10b981', ABX: '#ef4444', BHP: '#f59e0b', SCCO: '#f97316' }
 
 function ModelCard({ prediction, currentPrice }: { prediction: any, currentPrice: number }) {
   const isClassification = prediction.modelType === 'classification'
@@ -129,7 +129,11 @@ export default function AnalysisPage() {
           <div className="spinner" />
           <span style={{ color: '#64748b' }}>Running 8 ML models...</span>
         </div>
-      ) : data && (
+      ) : data?.error ? (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 400, gap: 12, color: '#ef4444' }}>
+          <span>Error loading data: {data.error}</span>
+        </div>
+      ) : data?.consensus && (
         <>
           {/* Consensus panel */}
           <div className="card animate-in" style={{ padding: '24px 28px', marginBottom: 20, background: 'linear-gradient(135deg, #fffbeb, #fff)', borderColor: '#fde68a' }}>
@@ -145,14 +149,14 @@ export default function AnalysisPage() {
                   </span>
                 </div>
                 <div style={{ fontSize: '0.85rem', color: '#92400e', marginTop: 8 }}>
-                  Avg. confidence: <strong>{(data.consensus.confidence * 100).toFixed(1)}%</strong>
+                  Avg. confidence: <strong>{data.consensus ? (data.consensus.confidence * 100).toFixed(1) : 0}%</strong>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: 16 }}>
                 {[
-                  { label: 'UP votes', value: data.consensus.upVotes, color: '#059669' },
-                  { label: 'DOWN votes', value: data.consensus.downVotes, color: '#dc2626' },
-                  { label: 'HOLD votes', value: data.consensus.holdVotes, color: '#64748b' },
+                  { label: 'UP votes', value: data.consensus?.upVotes || 0, color: '#059669' },
+                  { label: 'DOWN votes', value: data.consensus?.downVotes || 0, color: '#dc2626' },
+                  { label: 'HOLD votes', value: data.consensus?.holdVotes || 0, color: '#64748b' },
                 ].map(({ label, value, color }) => (
                   <div key={label} style={{ textAlign: 'center', background: 'white', borderRadius: 12, padding: '14px 20px', border: '1px solid #fde68a' }}>
                     <div style={{ fontSize: '2rem', fontWeight: 800, color, fontFamily: 'var(--font-display)' }}>{value}</div>

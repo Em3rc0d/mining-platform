@@ -92,10 +92,24 @@ export default function RiskPage() {
   const [riskMetrics, setRiskMetrics] = useState<RiskMetrics | null>(null)
   const [tickerMetrics, setTickerMetrics] = useState<TickerMetrics[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedPortfolio, setSelectedPortfolio] = useState('1')
+  const [portfolios, setPortfolios] = useState<any[]>([])
+  const [selectedPortfolio, setSelectedPortfolio] = useState('')
 
   useEffect(() => {
-    fetchRiskData()
+    fetch('/api/portfolio')
+      .then(r => r.json())
+      .then(d => {
+        setPortfolios(d.portfolios || [])
+        if (d.portfolios?.length > 0 && !selectedPortfolio) {
+          setSelectedPortfolio(d.portfolios[0].id.toString())
+        }
+      })
+  }, [])
+
+  useEffect(() => {
+    if (selectedPortfolio) {
+      fetchRiskData()
+    }
   }, [selectedPortfolio])
 
   const fetchRiskData = async () => {
@@ -160,8 +174,9 @@ export default function RiskPage() {
               fontSize: '0.875rem'
             }}
           >
-            <option value="1">Portfolio 1 - Mining Focus</option>
-            <option value="2">Portfolio 2 - Diversified</option>
+            {portfolios.map(p => (
+              <option key={p.id} value={p.id}>{p.name}</option>
+            ))}
           </select>
         </div>
 

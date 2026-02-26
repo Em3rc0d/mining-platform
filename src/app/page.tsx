@@ -13,7 +13,7 @@ interface DashboardData {
 }
 
 const COLORS = ['#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#ef4444', '#f97316']
-const COMPANY_COLORS: Record<string, string> = { BHP: '#f59e0b', RIO: '#3b82f6', FCX: '#10b981', NEM: '#8b5cf6', GOLD: '#ef4444', SCCO: '#f97316' }
+const COMPANY_COLORS: Record<string, string> = { FSM: '#3b82f6', 'VOLCABC1.LM': '#8b5cf6', BVN: '#10b981', ABX: '#ef4444', BHP: '#f59e0b', SCCO: '#f97316' }
 
 function StatCard({ label, value, sub, color, icon }: any) {
   return (
@@ -52,7 +52,7 @@ function CompanyRow({ company }: { company: any }) {
           </div>
         </div>
       </td>
-      <td><span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>${parseFloat(company.price || 0).toFixed(2)}</span></td>
+      <td><span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>${parseFloat(company.current_price || 0).toFixed(2)}</span></td>
       <td>
         <span className={`badge badge-${isUp ? 'up' : 'down'}`}>
           {isUp ? '▲' : '▼'} {Math.abs(change).toFixed(2)}%
@@ -68,7 +68,7 @@ function CompanyRow({ company }: { company: any }) {
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [loading, setLoading] = useState(true)
-  const [chartTicker, setChartTicker] = useState('BHP')
+  const [chartTicker, setChartTicker] = useState('FSM')
 
   useEffect(() => {
     fetch('/api/dashboard')
